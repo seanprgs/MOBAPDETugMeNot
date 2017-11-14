@@ -3,6 +3,7 @@ package edu.dlsu.mobapde.mobapdetugmenot;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -23,5 +24,11 @@ public class TutorialActivity extends Activity
         setContentView(R.layout.activity_tutorial);
 
         ibBack = findViewById(R.id.ib_back);
+        ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
