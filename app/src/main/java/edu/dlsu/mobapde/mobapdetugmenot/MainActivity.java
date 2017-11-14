@@ -35,5 +35,23 @@ public class MainActivity extends Activity
                 startActivity(i);
             }
         });
+
+        ibSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.setClass(getBaseContext(), SettingsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        ibOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.setClass(getBaseContext(), GameActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }
