@@ -1,44 +1,53 @@
 package edu.dlsu.mobapde.mobapdetugmenot;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.view.SurfaceView;
+import android.graphics.Color;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 /**
  * Created by Sean Paragas on 11/13/2017.
  */
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback
+public class GameView extends SurfaceView
 {
+    private Bitmap rop;
+    private Bitmap cpu;
+    private SurfaceHolder holder;
 
-    private GameThread thread;
-
-    public GameView(Context context) {
+    public GameView(Context context){
         super(context);
+        holder = getHolder();
 
-        getHolder().addCallback(this);
+        holder.addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                Canvas c = holder.lockCanvas();
+                onDraw(c);
+                holder.unlockCanvasAndPost(c);
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
+            }
+        });
+
+        rop = BitmapFactory.decodeResource(getResources(), R.drawable.rope);
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder) {
-
+    protected void onDraw(Canvas canvas){
+        super.onDraw(canvas);
+        canvas.drawColor(getResources().getColor(R.color.colorPrimary));
+        canvas.drawBitmap(rop, 0, 0, null);
     }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        // draw lol
-    }
-
-
 }

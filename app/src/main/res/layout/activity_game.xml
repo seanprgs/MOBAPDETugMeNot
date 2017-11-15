@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.dlsu.mobapde.mobapdetugmenot.GameActivity">
+    android:orientation="vertical"
+    android:background="#017D19"
+    tools:context="edu.dlsu.mobapde.mobapdetugmenot.GameActivity"
+    android:gravity="center">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_alignParentRight="true"
+            android:background="@drawable/pausebtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/ib_pause"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/game"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="195dp">
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

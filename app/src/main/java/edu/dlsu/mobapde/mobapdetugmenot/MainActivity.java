@@ -27,6 +27,24 @@ public class MainActivity extends Activity
         ibTutorial = findViewById(R.id.ib_tutorial);
         ibSettings = findViewById(R.id.ib_settings);
 
+        ibOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.setClass(getBaseContext(), GameActivity.class);
+                startActivity(i);
+            }
+        });
+
+        ibTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.setClass(getBaseContext(), GameActivity.class);
+                startActivity(i);
+            }
+        });
+
         ibTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,15 +59,6 @@ public class MainActivity extends Activity
             public void onClick(View view) {
                 Intent i = new Intent();
                 i.setClass(getBaseContext(), SettingsActivity.class);
-                startActivity(i);
-            }
-        });
-
-        ibOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent();
-                i.setClass(getBaseContext(), GameActivity.class);
                 startActivity(i);
             }
         });

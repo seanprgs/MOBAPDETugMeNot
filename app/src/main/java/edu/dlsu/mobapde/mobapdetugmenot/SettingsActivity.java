@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 
 public class SettingsActivity extends Activity
 {
-
     ImageButton ibBackS;
 
     @Override
