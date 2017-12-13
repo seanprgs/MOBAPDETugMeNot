@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 //game screen
 public class GameActivity extends Activity {
@@ -20,7 +21,9 @@ public class GameActivity extends Activity {
     GestureDetector gestureDetector;
     LinearLayout gameView;
     ImageButton ibPause;
-    public static final int GAME_MODE;
+    boolean gameState; // false if game is not playing
+    Prompt currPrompt;
+    //public static final int GAME_MODE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,9 @@ public class GameActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_game);
+
+        gameState = false;
+        currPrompt = Prompt.UP;
 
         GameView gameV = new GameView(this);
         gameView = findViewById(R.id.game);
@@ -48,19 +54,51 @@ public class GameActivity extends Activity {
         });
     }
 
+    public static final int FLING_DISTANCE = 130;
+    public static final int FLING_VELOCITY = 150;
+
     GestureDetector.SimpleOnGestureListener onGestureListener
             = new GestureDetector.SimpleOnGestureListener(){
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             // method triggered when swipe event is detected
 
-            // check if game is 1P or 2P
+            switch(currPrompt)
+            {
+                case UP:
+                    if(e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
+                    {
+                        Toast.makeText(getBaseContext(), "UP ehe", Toast.LENGTH_SHORT).show();
+                    } else {
 
-            // locate touch event
+                    }
+                    break;
+                case DOWN:
+                    if(e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
+                    {
 
-            // check player action prompt
-                // was action done?
+                    } else {
 
+                    }
+                    break;
+                case LEFT:
+                    if(e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
+                    {
+
+                    } else {
+
+                    }
+                    break;
+                case RIGHT:
+                    if(e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
+                    {
+
+                    } else {
+
+                    }
+                    break;
+
+            }
 
             return super.onFling(e1, e2, velocityX, velocityY);
         }
