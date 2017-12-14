@@ -19,7 +19,8 @@
         <activity android:name=".GameActivity" />
         <activity android:name=".TutorialActivity" />
         <activity android:name=".PauseDialog" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".StatsActivity"></activity>
     </application>
 
 </manifest>

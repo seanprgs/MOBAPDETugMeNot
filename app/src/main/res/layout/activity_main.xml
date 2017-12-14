@@ -25,7 +25,7 @@
     <ImageButton
         android:layout_width="200dp"
         android:layout_height="80dp"
-        android:src="@drawable/twop"
+        android:src="@drawable/stats"
         android:scaleType="centerCrop"
         android:background="@null"
         android:id="@+id/ib_two"/>

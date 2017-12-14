@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 //main menu
 public class MainActivity extends Activity
 {
-    ImageButton ibOne, ibTwo, ibTutorial, ibSettings;
+    ImageButton ibOne, ibStats, ibTutorial, ibSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -23,7 +23,7 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
 
         ibOne = findViewById(R.id.ib_one);
-        ibTwo = findViewById(R.id.ib_two);
+        ibStats = findViewById(R.id.ib_two);
         ibTutorial = findViewById(R.id.ib_tutorial);
         ibSettings = findViewById(R.id.ib_settings);
 
@@ -36,11 +36,11 @@ public class MainActivity extends Activity
             }
         });
 
-        ibTwo.setOnClickListener(new View.OnClickListener() {
+        ibStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent();
-                i.setClass(getBaseContext(), GameActivity.class);
+                i.setClass(getBaseContext(), StatsActivity.class);
                 startActivity(i);
             }
         });
