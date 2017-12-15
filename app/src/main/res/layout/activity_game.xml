@@ -12,23 +12,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        >
 
+
+        <SurfaceView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/game"
+            android:layout_gravity="center"
+            >
+        </SurfaceView>
         <ImageButton
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/pausebtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/ib_pause"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/game"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="195dp">
-        </LinearLayout>
 
     </RelativeLayout>
 </LinearLayout>
