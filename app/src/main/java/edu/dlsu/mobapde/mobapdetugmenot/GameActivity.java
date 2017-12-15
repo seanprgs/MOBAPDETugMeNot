@@ -3,9 +3,7 @@ package edu.dlsu.mobapde.mobapdetugmenot;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +20,7 @@ public class GameActivity extends Activity {
     LinearLayout gameView;
     ImageButton ibPause;
     boolean gameState; // false if game is not playing
-    Prompt currPrompt;
+    Gesture currGesture;
     //public static final int GAME_MODE;
 
     @Override
@@ -34,7 +32,7 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
 
         gameState = false;
-        currPrompt = Prompt.UP;
+        currGesture = Gesture.getRandomGesture();
 
         GameView gameV = new GameView(this);
         gameView = findViewById(R.id.game);
@@ -63,14 +61,15 @@ public class GameActivity extends Activity {
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             // method triggered when swipe event is detected
 
-            switch(currPrompt)
+            switch(currGesture)
             {
                 case UP:
                     if(e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
                     {
                         Toast.makeText(getBaseContext(), "UP ehe", Toast.LENGTH_SHORT).show();
+                        // success
                     } else {
-
+                        // fail
                     }
                     break;
                 case DOWN:
@@ -97,7 +96,46 @@ public class GameActivity extends Activity {
 
                     }
                     break;
+                case NOTUP:
+                    if((e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
+                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
+                    {
 
+                    } else {
+
+                    }
+                    break;
+                case NOTDOWN:
+                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
+                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
+                    {
+
+                    } else {
+
+                    }
+                    break;
+                case NOTLEFT:
+                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
+                    {
+
+                    } else {
+
+                    }
+                    break;
+                case NOTRIGHT:
+                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
+                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY))
+                    {
+
+                    } else {
+
+                    }
+                    break;
             }
 
             return super.onFling(e1, e2, velocityX, velocityY);

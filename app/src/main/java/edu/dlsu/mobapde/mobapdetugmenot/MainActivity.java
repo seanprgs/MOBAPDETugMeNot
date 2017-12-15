@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 //main menu
 public class MainActivity extends Activity
 {
-    ImageButton ibOne, ibStats, ibTutorial, ibSettings;
+    ImageButton ibPlay, ibStats, ibTutorial, ibSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -22,12 +22,12 @@ public class MainActivity extends Activity
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        ibOne = findViewById(R.id.ib_one);
-        ibStats = findViewById(R.id.ib_two);
+        ibPlay = findViewById(R.id.ib_play);
+        ibStats = findViewById(R.id.ib_stats);
         ibTutorial = findViewById(R.id.ib_tutorial);
         ibSettings = findViewById(R.id.ib_settings);
 
-        ibOne.setOnClickListener(new View.OnClickListener() {
+        ibPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent();

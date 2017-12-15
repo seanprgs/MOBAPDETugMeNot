@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Game.COLUMN_DIFFICULTY, game.getDifficulty();
+        contentValues.put(Game.COLUMN_DIFFICULTY, game.getDifficulty());
         contentValues.put(Game.COLUMN_RESULT, game.getResult());
         contentValues.put(Game.COLUMN_TIMELEFT, game.getTime());
 
