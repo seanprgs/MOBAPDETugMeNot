@@ -1,11 +1,12 @@
 package edu.dlsu.mobapde.mobapdetugmenot;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -30,6 +31,9 @@ public class GameActivity extends Activity{
 
     ArrayList<Rope> rop;
 
+    public static final int FLING_DISTANCE = 130;
+    public static final int FLING_VELOCITY = 150;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +42,9 @@ public class GameActivity extends Activity{
         gameState = false;
         currGesture = Gesture.getRandomGesture();
 
-        gestureDetector = new GestureDetector(getBaseContext(), onGestureListener);
+        //gestureDetector = new GestureDetector(getBaseContext(), onGestureListener);
+        Android_Gesture_Detector  android_gesture_detector  =  new Android_Gesture_Detector();
+        gestureDetector = new GestureDetector(this, android_gesture_detector);
 
         ibPause = (ImageButton) findViewById(R.id.ib_pause);
 
@@ -90,12 +96,26 @@ public class GameActivity extends Activity{
 
 
         });
+
+//        // detect touches on the surfaceview
+//        gameBoard.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent event) {
+//                // we update the android's position to the user's touch
+//                if((avatarX-100)<= event.getX() && (avatarX+100)>=event.getX()
+//                        && (avatarY-100)<= event.getY() && (avatarY+100)>=event.getY()){
+//                    avatarX = (int) event.getX();
+//                    avatarY = (int) event.getY();
+//                }
+//                return true;
+//            }
+//        });
     }
 
     private void initObjects() {
         rop = new ArrayList<>();
         Bitmap ropepic = BitmapFactory.decodeResource(getResources(), R.drawable.rope);
-        rop.add(new Rope(300, 0, ropepic, 5));
+        rop.add(new Rope(300, 0, ropepic, 10));
     }
 
     private void moveRopeDown(){
@@ -104,102 +124,228 @@ public class GameActivity extends Activity{
         }
     }
 
-    public static final int FLING_DISTANCE = 130;
-    public static final int FLING_VELOCITY = 150;
+    private void moveRopeUp(){
+        for(Rope r:rop){
+            r.moveUp();
+        }
+    }
 
-    GestureDetector.SimpleOnGestureListener onGestureListener
-            = new GestureDetector.SimpleOnGestureListener(){
+    class Android_Gesture_Detector implements GestureDetector.OnGestureListener{
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+        //      Gestures for moving the rope
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            // method triggered when swipe event is detected
-
-            switch(currGesture)
-            {
-                case UP:
-                    if(e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
-                    {
-                        Toast.makeText(getBaseContext(), "UP ehe", Toast.LENGTH_SHORT).show();
-                        // success
+            switch(currGesture) {
+                case RIGHT:
+                    if (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) {
+                        Toast.makeText(getBaseContext(), "RIGHT ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
                     } else {
-                        // fail
+                        moveRopeUp();
                     }
-                    break;
-                case DOWN:
-                    if(e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
-                    {
-
-                    } else {
-
-                    }
+                    currGesture = Gesture.getRandomGesture();
                     break;
                 case LEFT:
-                    if(e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
-                    {
-
+                    if (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) {
+                        Toast.makeText(getBaseContext(), "LEFT ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
                     } else {
-
+                        moveRopeUp();
                     }
+                    currGesture = Gesture.getRandomGesture();
                     break;
-                case RIGHT:
-                    if(e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
-                    {
-
+                case DOWN:
+                    if (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) {
+                        Toast.makeText(getBaseContext(), "DOWN ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
                     } else {
-
+                        moveRopeUp();
                     }
+                    currGesture = Gesture.getRandomGesture();
+                    break;
+                case UP:
+                    if (e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) {
+                        Toast.makeText(getBaseContext(), "UP ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
+                    } else {
+                        moveRopeUp();
+                    }
+                    currGesture = Gesture.getRandomGesture();
                     break;
                 case NOTUP:
-                    if((e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                    if ((e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
-                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
-                    {
-
+                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)) {
+                        Toast.makeText(getBaseContext(), "NOT UP ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
                     } else {
-
+                        moveRopeUp();
                     }
+                    currGesture = Gesture.getRandomGesture();
                     break;
                 case NOTDOWN:
-                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                    if ((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
-                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
-                    {
-
+                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)) {
+                        Toast.makeText(getBaseContext(), "NOT DOWN ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
                     } else {
-
+                        moveRopeUp();
                     }
+                    currGesture = Gesture.getRandomGesture();
                     break;
                 case NOTLEFT:
-                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                    if ((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
-                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
-                    {
-
+                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)) {
+                        Toast.makeText(getBaseContext(), "NOT LEFT ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
                     } else {
-
+                        moveRopeUp();
                     }
+                    currGesture = Gesture.getRandomGesture();
                     break;
                 case NOTRIGHT:
-                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+                    if ((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
-                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY))
-                    {
-
+                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)) {
+                        Toast.makeText(getBaseContext(), "NOT RIGHT ehe", Toast.LENGTH_SHORT).show();
+                        moveRopeDown();
                     } else {
-
+                        moveRopeUp();
                     }
+                    currGesture = Gesture.getRandomGesture();
                     break;
             }
-
-            return super.onFling(e1, e2, velocityX, velocityY);
+            return true;
         }
-    };
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // method triggered when touch event is detected
+        gestureDetector.onTouchEvent(event);
 
-        return gestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+        // Return true if you have consumed the event, false if you haven't.
+        // The default implementation always returns false.
     }
+
+//    GestureDetector.SimpleOnGestureListener onGestureListener
+//            = new GestureDetector.SimpleOnGestureListener(){
+//        @Override
+//        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+//            // method triggered when swipe event is detected
+//
+//            switch(currGesture)
+//            {
+//                case UP:
+//                    if(e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
+//                    {
+//                        Toast.makeText(getBaseContext(), "UP ehe", Toast.LENGTH_SHORT).show();
+//                        // success
+//                    } else {
+//                        // fail
+//                    }
+//                    break;
+//                case DOWN:
+//                    if(e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
+//                    {
+//
+//                    } else {
+//
+//                    }
+//                    break;
+//                case LEFT:
+//                    if(e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
+//                    {
+//
+//                    } else {
+//
+//                    }
+//                    break;
+//                case RIGHT:
+//                    if(e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
+//                    {
+//
+//                    } else {
+//
+//                    }
+//                    break;
+//                case NOTUP:
+//                    if((e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+//                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
+//                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
+//                    {
+//
+//                    } else {
+//
+//                    }
+//                    break;
+//                case NOTDOWN:
+//                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+//                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
+//                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
+//                    {
+//
+//                    } else {
+//
+//                    }
+//                    break;
+//                case NOTLEFT:
+//                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+//                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+//                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
+//                    {
+//
+//                    } else {
+//
+//                    }
+//                    break;
+//                case NOTRIGHT:
+//                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
+//                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
+//                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY))
+//                    {
+//
+//                    } else {
+//
+//                    }
+//                    break;
+//            }
+//
+//            return super.onFling(e1, e2, velocityX, velocityY);
+//        }
+//    };
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        // method triggered when touch event is detected
+//
+//        return gestureDetector.onTouchEvent(event);
+//    }
 
     private void draw(Canvas canvas) {
 
@@ -207,12 +353,17 @@ public class GameActivity extends Activity{
             // clear the board
             canvas.drawRGB(1, 125, 25);
 
-            // ... or draw a bitmap
-            Bitmap ropepic = BitmapFactory.decodeResource(getResources(), R.drawable.rope);
+//            Bitmap android = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+//            canvas.drawBitmap(android, avatarX-(android.getWidth()/2), avatarY-(android.getHeight()/2), null);
 
+            Paint paint = new Paint();
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(20);
+            canvas.drawText(currGesture.toString(), 50, 50, paint);
+
+            Bitmap ropepic = BitmapFactory.decodeResource(getResources(), R.drawable.rope);
             for(Rope r:rop){
                 canvas.drawBitmap(r.getBitmap(), r.getX(), r.getY(), null);
-
                 Log.i("collision", " left " + r.getX());
                 Log.i("collision", " up " + r.getY());
                 Log.i("collision", " right " + r.getX()+100);
@@ -250,7 +401,7 @@ public class GameActivity extends Activity{
                     synchronized (_surfaceHolder) {
                         //call a method that draws all the required objects onto the canvas.
                         draw(c);
-                        moveRopeDown();
+                        //moveRopeDown();
                     }
                 } finally {
                     // do this in a finally so that if an exception is thrown

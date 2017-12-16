@@ -8,7 +8,24 @@ import java.util.Random;
 
 public enum Gesture
 {
-    UP, DOWN, LEFT, RIGHT, NOTUP, NOTDOWN, NOTLEFT, NOTRIGHT;
+    UP("Up"),
+    DOWN("Down"),
+    LEFT("Left"),
+    RIGHT("Right"),
+    NOTUP("Not Up"),
+    NOTDOWN("Not Down"),
+    NOTLEFT("Not Left"),
+    NOTRIGHT("Not Right");
+
+    private final String textRepresentation;
+
+    private Gesture(String textRepresentation) {
+        this.textRepresentation = textRepresentation;
+    }
+
+    @Override public String toString() {
+        return textRepresentation;
+    }
 
     public static Gesture getRandomGesture()
     {

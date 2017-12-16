@@ -36,6 +36,10 @@ public class Rope {
         this.y+=this.pace;
     }
 
+    public void moveUp(){
+        this.y-=this.pace;
+    }
+
     public Bitmap getBitmap() {
         return rop;
     }
