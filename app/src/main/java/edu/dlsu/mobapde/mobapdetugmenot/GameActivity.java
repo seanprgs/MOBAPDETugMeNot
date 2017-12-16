@@ -15,7 +15,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import java.util.ArrayList;
 
 public class GameActivity extends Activity{
@@ -23,6 +22,7 @@ public class GameActivity extends Activity{
     SurfaceView gameBoard;
     boolean gameState;
     Gesture currGesture;
+    String response = "";
     DrawingThread thread;
     ImageButton ibPause;
 
@@ -97,25 +97,12 @@ public class GameActivity extends Activity{
 
         });
 
-//        // detect touches on the surfaceview
-//        gameBoard.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent event) {
-//                // we update the android's position to the user's touch
-//                if((avatarX-100)<= event.getX() && (avatarX+100)>=event.getX()
-//                        && (avatarY-100)<= event.getY() && (avatarY+100)>=event.getY()){
-//                    avatarX = (int) event.getX();
-//                    avatarY = (int) event.getY();
-//                }
-//                return true;
-//            }
-//        });
     }
 
     private void initObjects() {
         rop = new ArrayList<>();
         Bitmap ropepic = BitmapFactory.decodeResource(getResources(), R.drawable.rope);
-        rop.add(new Rope(300, 0, ropepic, 10));
+        rop.add(new Rope(350, -350, ropepic, 25));
     }
 
     private void moveRopeDown(){
@@ -155,43 +142,47 @@ public class GameActivity extends Activity{
         public void onLongPress(MotionEvent motionEvent) {
 
         }
-        //      Gestures for moving the rope
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             switch(currGesture) {
                 case RIGHT:
                     if (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) {
-                        Toast.makeText(getBaseContext(), "RIGHT ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
                 case LEFT:
                     if (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) {
-                        Toast.makeText(getBaseContext(), "LEFT ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
                 case DOWN:
                     if (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) {
-                        Toast.makeText(getBaseContext(), "DOWN ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
                 case UP:
                     if (e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) {
-                        Toast.makeText(getBaseContext(), "UP ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
@@ -199,10 +190,11 @@ public class GameActivity extends Activity{
                     if ((e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
                             (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)) {
-                        Toast.makeText(getBaseContext(), "NOT UP ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
@@ -210,10 +202,11 @@ public class GameActivity extends Activity{
                     if ((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
                             (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)) {
-                        Toast.makeText(getBaseContext(), "NOT DOWN ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
@@ -221,10 +214,11 @@ public class GameActivity extends Activity{
                     if ((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)) {
-                        Toast.makeText(getBaseContext(), "NOT LEFT ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
@@ -232,10 +226,11 @@ public class GameActivity extends Activity{
                     if ((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
                             (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
                             (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)) {
-                        Toast.makeText(getBaseContext(), "NOT RIGHT ehe", Toast.LENGTH_SHORT).show();
                         moveRopeDown();
+                        response = "CORRECT";
                     } else {
                         moveRopeUp();
+                        response = "WRONG";
                     }
                     currGesture = Gesture.getRandomGesture();
                     break;
@@ -253,113 +248,19 @@ public class GameActivity extends Activity{
         // The default implementation always returns false.
     }
 
-//    GestureDetector.SimpleOnGestureListener onGestureListener
-//            = new GestureDetector.SimpleOnGestureListener(){
-//        @Override
-//        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//            // method triggered when swipe event is detected
-//
-//            switch(currGesture)
-//            {
-//                case UP:
-//                    if(e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
-//                    {
-//                        Toast.makeText(getBaseContext(), "UP ehe", Toast.LENGTH_SHORT).show();
-//                        // success
-//                    } else {
-//                        // fail
-//                    }
-//                    break;
-//                case DOWN:
-//                    if(e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY)
-//                    {
-//
-//                    } else {
-//
-//                    }
-//                    break;
-//                case LEFT:
-//                    if(e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
-//                    {
-//
-//                    } else {
-//
-//                    }
-//                    break;
-//                case RIGHT:
-//                    if(e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY)
-//                    {
-//
-//                    } else {
-//
-//                    }
-//                    break;
-//                case NOTUP:
-//                    if((e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
-//                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
-//                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
-//                    {
-//
-//                    } else {
-//
-//                    }
-//                    break;
-//                case NOTDOWN:
-//                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
-//                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
-//                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
-//                    {
-//
-//                    } else {
-//
-//                    }
-//                    break;
-//                case NOTLEFT:
-//                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
-//                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
-//                            (e2.getX() - e1.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY))
-//                    {
-//
-//                    } else {
-//
-//                    }
-//                    break;
-//                case NOTRIGHT:
-//                    if((e1.getY() - e2.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY) ||
-//                            (e1.getX() - e2.getX() > FLING_DISTANCE && Math.abs(velocityX) > FLING_VELOCITY) ||
-//                            (e2.getY() - e1.getY() > FLING_DISTANCE && Math.abs(velocityY) > FLING_VELOCITY))
-//                    {
-//
-//                    } else {
-//
-//                    }
-//                    break;
-//            }
-//
-//            return super.onFling(e1, e2, velocityX, velocityY);
-//        }
-//    };
-//
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        // method triggered when touch event is detected
-//
-//        return gestureDetector.onTouchEvent(event);
-//    }
-
     private void draw(Canvas canvas) {
 
         if(canvas!=null) {
             // clear the board
             canvas.drawRGB(1, 125, 25);
 
-//            Bitmap android = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-//            canvas.drawBitmap(android, avatarX-(android.getWidth()/2), avatarY-(android.getHeight()/2), null);
-
             Paint paint = new Paint();
-            paint.setColor(Color.BLACK);
-            paint.setTextSize(20);
-            canvas.drawText(currGesture.toString(), 50, 50, paint);
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(40);
+            canvas.drawText(response, 50, 400, paint);
+
+            Bitmap gesture = BitmapFactory.decodeResource(getResources(), currGesture.getDrawable());
+            canvas.drawBitmap(gesture, 50, 50, null);
 
             Bitmap ropepic = BitmapFactory.decodeResource(getResources(), R.drawable.rope);
             for(Rope r:rop){
@@ -401,7 +302,6 @@ public class GameActivity extends Activity{
                     synchronized (_surfaceHolder) {
                         //call a method that draws all the required objects onto the canvas.
                         draw(c);
-                        //moveRopeDown();
                     }
                 } finally {
                     // do this in a finally so that if an exception is thrown

@@ -1,6 +1,8 @@
 package edu.dlsu.mobapde.mobapdetugmenot;
 
 import java.util.Random;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 /**
  * Created by Sean Paragas on 12/13/2017.
@@ -8,23 +10,23 @@ import java.util.Random;
 
 public enum Gesture
 {
-    UP("Up"),
-    DOWN("Down"),
-    LEFT("Left"),
-    RIGHT("Right"),
-    NOTUP("Not Up"),
-    NOTDOWN("Not Down"),
-    NOTLEFT("Not Left"),
-    NOTRIGHT("Not Right");
+    UP(R.drawable.up),
+    DOWN(R.drawable.down),
+    LEFT(R.drawable.left),
+    RIGHT(R.drawable.right),
+    NOTUP(R.drawable.notup),
+    NOTDOWN(R.drawable.notdown),
+    NOTLEFT(R.drawable.notleft),
+    NOTRIGHT(R.drawable.notright);
 
-    private final String textRepresentation;
+    private final int drawable;
 
-    private Gesture(String textRepresentation) {
-        this.textRepresentation = textRepresentation;
+    private Gesture(int drawable) {
+        this.drawable = drawable;
     }
 
-    @Override public String toString() {
-        return textRepresentation;
+    public int getDrawable() {
+        return this.drawable;
     }
 
     public static Gesture getRandomGesture()
@@ -32,4 +34,5 @@ public enum Gesture
         Random random = new Random();
         return values()[random.nextInt(values().length)];
     }
+
 }
